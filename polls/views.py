@@ -10,6 +10,7 @@ from .models import IngresoEspacio
 from .forms import EspacioForm
 from datetime import date
 from django.views.generic import CreateView
+from django.urls import reverse, reverse_lazy
 
 
 # Create your views here.
@@ -94,11 +95,12 @@ def registro_clientes(request):
 class RegistroIngresoView(CreateView):
     model = Clientes
     template_name = 'registro_clientes.html'
-    form_class = ClientesForm
-    fields=['no_de_orden', 'documento_identidad', 'nombre', 'apellidos', 'citizenship', 'fecha_nacimiento', 
+    # form_class = ClientesForm
+    success_url = reverse_lazy('home')
+    fields=('no_de_orden', 'documento_identidad', 'nombre', 'apellidos', 'citizenship', 'fecha_nacimiento', 
                    'estado', 'fecha_entrada', 'fecha_salida', 'cantidad_noches', 'objeto_arrendamiento', 
                    'recibo_pago', 'info_registro', 'ingreso_desayuno', 
-                   'ingreso_almuerzo', ]
+                   'ingreso_almuerzo','user',)
     # fields=('no_de_orden', 'documento_identidad', 'nombre', 'apellidos','fecha_nacimiento', 
     #               'estado', 'fecha_entrada', 'fecha_salida', 'cantidad_noches', 
     #               'recibo_pago', 'info_registro', 'ingreso_desayuno', 
@@ -110,15 +112,15 @@ class RegistroIngresoView(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        id_ciudadania = Ciudadania.objects.get(name = self.request.citizenship).id
-        id_rooms = Rooms.objects.get(name = self.request.objeto_arrendamiento).id
-        form.instance.objeto_arrendamiento= id_rooms
-        form.instance.citizenship = id_ciudadania
+        # id_ciudadania = Ciudadania.objects.get(name = self.request.citizenship).id
+        # id_rooms = Rooms.objects.get(name = self.request.objeto_arrendamiento).id
+        # form.instance.objeto_arrendamiento= id_rooms
+        # form.instance.citizenship = id_ciudadania
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["rooms"] = Rooms.objects.all()
+        context["rooms"] = Rooms.objects.filter(disponible = True) 
         context["ciudadanias"] = Ciudadania.objects.all()
         return context
    
@@ -130,7 +132,7 @@ def listado_clientes_reg(request):
 
 
 def listado_clientes_act(request):
-    lista_clientes = Clientes.objects.filter(Fecha_salida__gte=date.today())
+    lista_clientes = Clientes.objects.filter(fecha_salida__gte=date.today())
     return render(request, 'listado_clientes_reg.html', {'lista_clientes': lista_clientes})
 
 

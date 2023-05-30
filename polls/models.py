@@ -40,7 +40,7 @@ class Clientes(TimeField):
     ingreso_desayuno = models.FloatField(default=0)
     ingreso_almuerzo = models.FloatField(default=0)
     ingreso_total = models.FloatField(null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     
     def __str__(self):
         return self.nombre

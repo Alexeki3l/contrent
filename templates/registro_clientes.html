@@ -38,19 +38,19 @@
 
                         <ul class="nav nav-pills collapse ms-2 flex-column" id="sidemenu" data-bs-parent="#menu">
                             <li class="nav-item my-sm-1 my-2">
-                                <a class="nav-link text-white" href="/registro_clientes" aria-current="page">- Registro
+                                <a class="nav-link text-white" href="{% url 'registro_clientes' %}" aria-current="page">- Registro
                                     de clientes</a>
                             </li>
                             <li class="nav-item my-sm-1 my-2">
-                                <a class="nav-link text-white" href="/listado_clientes_reg">- Listado de clientes
+                                <a class="nav-link text-white" href="{% url 'listado_clientes_reg' %}" >- Listado de clientes
                                     registrados</a>
                             </li>
                             <li class="nav-item my-sm-1 my-2">
-                                <a class="nav-link text-white" href="/listado_clientes_act">- Listado de clientes
+                                <a class="nav-link text-white" href="{% url 'listado_clientes_act' %}">- Listado de clientes
                                     actuales</a>
                             </li>
                             <li class="nav-item my-sm-1 my-2">
-                                <a class="nav-link text-white" href="/indice_ocupacional">- Índice Ocupacional</a>
+                                <a class="nav-link text-white" href="{% url 'indice_ocupacional' %}">- Índice Ocupacional</a>
                             </li>
                         </ul>
 
@@ -176,7 +176,7 @@
                     <select class="form-select" name="citizenship" id="validationDefault04" required>
                         <option selected disabled value="">Eligir...</option>
                         {% for ciudadania in ciudadanias %}
-                            <option>{{ciudadania}}</option>
+                            <option value="{{ciudadania.id}}">{{ciudadania}}</option>
                             
                         {% endfor %}
                     </select>
@@ -210,7 +210,7 @@
                     <select class="form-select" name="objeto_arrendamiento" id="validationDefault04" required>
                         <option selected disabled value="">Eligir...</option>
                         {% for room in rooms %}
-                            <option>{{room}}</option>
+                            <option value="{{room.id}}">{{room}}</option>
                             
                         {% endfor %}
                     </select>
